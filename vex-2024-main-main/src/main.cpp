@@ -595,10 +595,10 @@ void pre_auton(void)
   const int blue_height = screen_h - red_height;
 
   const char* labels[10] = {
-    "R_right","R_left","R_right_F","R_left_F","R_solo",
-    "B_right","B_left","B_right_F","B_left_F","B_solo"
+    "R_right","R_left","R_solo","R_left_F","R_right_F",
+    "B_right","B_left","B_solo","B_left_F","B_right_F"
   };
-
+  
   Brain.Screen.setFont(vex::fontType::mono20);
 
   while (!auto_started)
@@ -680,13 +680,13 @@ void autonomous(void)
     R_left();
     break;
   case 2:
-    R_right_final();
+    R_solo();
     break;
   case 3:
     R_left_final();
     break;
   case 4:
-    R_solo();
+    R_right_final();
     break;
   case 5:
     B_right();
@@ -695,13 +695,13 @@ void autonomous(void)
     B_left();
     break;
   case 7:
-    B_right_final();
+    B_solo();
     break;
   case 8:
     B_left_final();
     break;
   case 9:
-    B_solo();
+    B_right_final();
     break;
   }
   
