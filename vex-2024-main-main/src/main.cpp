@@ -368,8 +368,8 @@ static inline void show_status_page(int selectedAuton) {
   while (Brain.Screen.pressing()) wait(10, msec);
 
   const char* labels[10] = {
-    "R_right","R_left","R_right_F","R_left_F","R_solo",
-    "B_right","B_left","B_right_F","B_left_F","B_solo"
+    "R_right","R_left","R_solo","R_left_F","R_right_F",
+    "B_right","B_left","B_solo","B_left_F","B_right_F"
   };
 
   DashTab tab = TAB_INPUTS;
