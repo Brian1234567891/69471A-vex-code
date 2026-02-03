@@ -18,10 +18,10 @@ extern motor intakedown;
 extern motor hang1;
 extern digital_out redlight;
 extern digital_out whitelight;
-extern digital_out intakeCylander;
+extern digital_out hook;
 extern digital_out pushCylinder;
 extern digital_out shooter;
-extern digital_out aligner;
+extern digital_out tongue;
 extern vex::vision Vision1;
 extern vex::vision Vision2; 
 

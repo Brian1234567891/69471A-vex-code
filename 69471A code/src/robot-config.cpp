@@ -9,23 +9,29 @@ brain Brain;
 
 // VEXcode device constructors
 motor R1 = motor(PORT6, ratio18_1, false);
-motor R2 = motor(PORT7, ratio18_1, true);
+motor R2 = motor(PORT7, ratio18_1, false);
 motor R3 = motor(PORT8, ratio18_1, false);
 motor L1 = motor(PORT11, ratio18_1, true);
-motor L2 = motor(PORT12, ratio18_1, false);
+motor L2 = motor(PORT12, ratio18_1, true);
 motor L3 = motor(PORT13, ratio18_1, true);
-inertial Inertial = inertial(PORT3);
+motor intakedown = motor(PORT1, ratio6_1, false);
+motor intake = motor(PORT2, ratio6_1, false);
+
 controller Controller1 = controller(primary);
-motor intake = motor(PORT2, ratio6_1, true);
+
+inertial Inertial = inertial(PORT5);
+
 optical Optical = optical(PORT7);
 optical Optical_go = optical(PORT16);
-motor intakedown = motor(PORT1, ratio6_1, false);
+
+
+digital_out hook = digital_out(Brain.ThreeWirePort.F);//hook
+digital_out shooter = digital_out(Brain.ThreeWirePort.G);//poop
+digital_out tongue = digital_out(Brain.ThreeWirePort.H);//tongue
+
 digital_out pushCylinder = digital_out(Brain.ThreeWirePort.A);
-digital_out intakeCylander = digital_out(Brain.ThreeWirePort.F);//蟑螂鬚
 digital_out redlight = digital_out(Brain.ThreeWirePort.C);
 digital_out whitelight = digital_out(Brain.ThreeWirePort.D);
-digital_out shooter = digital_out(Brain.ThreeWirePort.G);//poop
-digital_out aligner = digital_out(Brain.ThreeWirePort.H);//tongue
 motor hang1 = motor(PORT19, ratio36_1, true);
 vex::vision Vision1 = vex::vision(vex::PORT13, 50);
 vex::vision Vision2 = vex::vision(vex::PORT15, 50);
@@ -42,7 +48,7 @@ bool RemoteControlCodeEnabled = true;
  */
 void vexcodeInit(void)
 {
-  shooter.set(true);
-  intakeCylander.set(true);
+  shooter.set(false);
+  hook.set(false);
   // nothing to initialize
 }

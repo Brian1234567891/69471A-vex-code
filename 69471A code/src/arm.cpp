@@ -20,13 +20,6 @@ int hangControlTask()
             hang1.spin(forward, 6, volt);
             hang1.resetPosition();
         }
-        else if (shooter.value()==0)
-        {
-            if (now - lastRumbleTime > rumbleInterval) {
-                Controller1.rumble(".");
-                lastRumbleTime = now;
-            }
-        }
         else if (Controller1.ButtonB.pressing())
         {
             if (hang1.position(degrees) > -63)

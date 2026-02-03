@@ -20,13 +20,13 @@ Drive chassis(
     // Right Motors:
     motor_group(R1, R2, R3),
     // Specify the PORT NUMBER of your inertial sensor, in PORT format (i.e. "PORT1", not simply "1"):
-    PORT3,
+    PORT5,
     // Input your wheel diameter. (4" omnis are actually closer to 4.125"):
-    4.00,
+    3.25,
     // 外部齒比，必須以小數形式表示，輸入齒數/輸出齒數格式。
     // 若您的馬達有 84 齒的齒輪，輪子有 60 齒的齒輪，此值將為 1.4。
     // 若馬達直接驅動輪子，則此值為 1：
-    1,
+    0.75,
     // Gyro scale, this is what your gyro reads when you spin the robot 360 degrees.
     // For most cases 360 will do fine here, but this scale factor can be very helpful when precision is necessary.
     360,
@@ -67,8 +67,8 @@ static inline double wrap180(double a){ while(a>180)a-=360; while(a<-180)a+=360;
 static const double PI = 3.14159265358979323846;
 
 // 依你目前的輪徑/齒比（Drive 設 3.75, 0.66666）
-static const double WHEEL_DIAM_IN  = 4.00; // 輪徑
-static const double EXT_GEAR_RATIO = 0.714285; // 外部齒比
+static const double WHEEL_DIAM_IN  = 3.25; // 輪徑
+static const double EXT_GEAR_RATIO = 0.75; // 外部齒比
 static const double WHEEL_CIRC_IN  = PI * WHEEL_DIAM_IN;
 
 static double deg_to_inches(double posDeg){
@@ -178,7 +178,7 @@ void cos_move_distance_smooth(double distance_in, double angle_deg, double turn_
   R1.stop(); R2.stop(); R3.stop();
 }
 
-int current_auton_selection = 6; //select auton:R_right:0, R_left:1, R_solo:4, B_right:5, B_left:6, B_solo:9
+int current_auton_selection = 9; //select auton:case 0:R_right7, 1:R_left7, 2:R_solo, 3:R_43, 4:skills96, 5:B_right7, 6:B_left7, 7:B_solo, 8:B_43, 9:RL_43
 bool auto_started = false;
 int air = 0;
 int temp = 0;
@@ -186,27 +186,23 @@ int option = 0;
 bool airspace = false;
 bool ran_auton = false; // 是否已經跑auto模式
 
-void cylinderSwitch()
-{
-  intakeCylander = !intakeCylander;
-}
 void intakecylanderon()
 {
   airspace = !airspace;
-  intakeCylander = airspace;
+  hook = airspace;
 }
 void intakecylanderoff()
 {
-  intakeCylander = false;
+  hook = false;
 }
 void shooterSwitch()
 {
     shooter = !shooter;
-    waitUntil(!Controller1.ButtonB.pressing());
+    waitUntil(!Controller1.ButtonDown.pressing());
 }
 void alignerSwitch()
 {
-  aligner = !aligner;
+  tongue = !tongue;
   waitUntil(!Controller1.ButtonDown.pressing());
 }
 void shooterOn()  
@@ -218,11 +214,11 @@ void shooterOff() {
   }
 void alignerON()  
   {
-   aligner = true;  
+   tongue = true;  
   }
 void alignerOFF() 
   {
-   aligner = false; 
+   tongue = false; 
   }
 
 void hang() // 預留吊掛
@@ -368,8 +364,8 @@ static inline void show_status_page(int selectedAuton) {
   while (Brain.Screen.pressing()) wait(10, msec);
 
   const char* labels[10] = {
-    "R_right","R_left","R_solo","skills85","R_right_F",
-    "B_right","B_left","B_solo","skills96","skills101"
+    "R_right7","R_left7","R_solo","R_43","skills96",
+    "B_right","B_left","B_solo","B_43","skills101"
   };
 
   DashTab tab = TAB_INPUTS;
@@ -476,10 +472,10 @@ static inline void show_status_page(int selectedAuton) {
 
       drawPneuBox("no status", redlight.value(),       {pneuX + 0*(pneuW+pneuSP), pneuY, pneuW, pneuH});
       drawPneuBox("no status", whitelight.value(),     {pneuX + 1*(pneuW+pneuSP), pneuY, pneuW, pneuH});
-      drawPneuBox("INTK",      intakeCylander.value(), {pneuX + 2*(pneuW+pneuSP), pneuY, pneuW, pneuH});
+      drawPneuBox("INTK",      hook.value(), {pneuX + 2*(pneuW+pneuSP), pneuY, pneuW, pneuH});
       drawPneuBox("PUSH",      pushCylinder.value(),   {pneuX + 3*(pneuW+pneuSP), pneuY, pneuW, pneuH});
       drawPneuBox("SHOT",      shooter.value(),        {pneuX + 4*(pneuW+pneuSP), pneuY, pneuW, pneuH});
-      drawPneuBox("ALIGN",     aligner.value(),        {pneuX + 5*(pneuW+pneuSP), pneuY, pneuW, pneuH});
+      drawPneuBox("ALIGN",     tongue.value(),        {pneuX + 5*(pneuW+pneuSP), pneuY, pneuW, pneuH});
     }
     else {
       // ===== Motors 頁（放大字體 + 逐行清除避免陰影） =====
@@ -595,8 +591,8 @@ void pre_auton(void)
   const int blue_height = screen_h - red_height;
 
   const char* labels[10] = {
-    "R_right","R_left","R_solo","skills85","R_right_F",
-    "B_right","B_left","B_solo","skills96","skills101"
+    "R_right7","R_left7","R_solo","R_43","skills96",
+    "B_right7","B_left7","B_solo","B_43","skills101"
   };
   
   Brain.Screen.setFont(vex::fontType::mono20);
@@ -674,34 +670,34 @@ void autonomous(void)
   {
 
   case 0:
-    R_right();
+    R_right7();
     break;
   case 1:
-    R_left();
+    R_left7();
     break;
   case 2:
     R_solo();
     break;
   case 3:
-    skills85();
+    R_43();
     break;
   case 4:
-    R_right_F();
+    skills96();
     break;
   case 5:
-    B_right();
+    B_right7();
     break;
   case 6:
-    B_left();
+    B_left7();
     break;
   case 7:
     B_solo();
     break;
   case 8:
-    skills96();
+    B_43();
     break;
   case 9:
-    skills101();
+    RL_43();
     break;
   }
   
@@ -741,27 +737,52 @@ int intakeControlTask()
   while (true)
   {
     // 依優先權：R1 > R2 > L1 > L2
-    if (Controller1.ButtonR1.pressing())
+    // R1 + A: on first press, reverse intakedown briefly (100 ms), then proceed with normal behavior
+    // If either button is released, reset the state so the pulse can fire again on the next press
+    if(Controller1.ButtonR2.pressing())
     {
-      // L1：只動 intakedown 反轉
-      intake.stop(coast);
-      intakedown.spin(forward, 12, volt);
+      hook=true;
     }
-    else if (Controller1.ButtonR2.pressing())
+    else
     {
-      // L2：只動 intakedown 正轉
-      intake.stop(coast);
+      hook=false;
+    }
+    static bool combo_prev = false;
+    bool down_pressed  = Controller1.ButtonDown.pressing();
+    bool r1_pressed = Controller1.ButtonR1.pressing();
+    bool combo = down_pressed && r1_pressed;
+    if(down_pressed)
+    {
+      shooter=true;
+    }
+    else
+    {
+      shooter=false;
+    }
+    
+    // 若任一按鈕釋放，立即重置 combo_prev，允許下一次按下觸發短衝
+    
+    if (combo && !combo_prev)
+    {
       intakedown.spin(reverse, 12, volt);
+      wait(0.2, sec);
+      intakedown.spin(forward, 12, volt);
+      intake.spin(reverse, 12, volt);
+    }
+    else if (Controller1.ButtonR1.pressing())
+    {
+      // R1：只動 intakedown 反轉
+      intakedown.spin(forward, 12, volt);
     }
     else if (Controller1.ButtonL1.pressing())
     {
-      // 原本功能保留：R1
+      // L1：whole intake 正轉
       intake.spin(forward, 12, volt);
       intakedown.spin(forward, 12, volt);
     }
     else if (Controller1.ButtonL2.pressing())
     {
-      // 原本功能保留：R2
+      // L2: whole intake 反轉
       intake.spin(reverse, 12, volt);
       intakedown.spin(reverse, 12, volt);  
     }
@@ -771,7 +792,14 @@ int intakeControlTask()
       intake.stop(coast);
       intakedown.stop(coast);
     }
-
+    if (!down_pressed||!r1_pressed)
+    {
+      combo_prev = false;
+    } 
+    else
+    {
+      combo_prev = true;
+    }
     wait(20, msec);
   }
   return 0;
@@ -786,7 +814,7 @@ void usercontrol(void)
   {
     // 若已跑過 auto
   }
-  
+  hook=false;
   task notetask(autonoteTask, 0);
   //---------------------------------------------------
   task momogo(momogoTask, 0);
@@ -795,16 +823,13 @@ void usercontrol(void)
   //-----------------------------------------------------
   task hangTask(hangControlTask, 0);
   //-----------------------------------------------------
-  Controller1.ButtonB.pressed(shooterSwitch);// 大便
   //-----------------------------------------------------
-  Controller1.ButtonRight.pressed(alignerSwitch);//蟑螂鬚
   //-----------------------------------------------------
   Controller1.ButtonY.pressed(hang);
   //-----------------------------------------------------
-  Controller1.ButtonDown.pressed(intakecylanderon);// 對齊
+  Controller1.ButtonB.pressed(alignerSwitch);//match load
 
   //-----------------------------------------------------
-  Controller1.ButtonA.pressed(toggleDriveMode);
 
   while (1)
   {

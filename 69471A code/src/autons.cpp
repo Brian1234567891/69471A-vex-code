@@ -26,110 +26,206 @@ int info()
   return 1;
 }
 
-void R_right()
+void R_right7()
 {
   vex::color selectedTeamColor = vex::color::red;
-  chassis.set_drive_constants(10, 1.2, 0.005, 2, 10);
-  chassis.set_heading_constants(10, 1.2, 0.005, 2, 10);
-  intakeCylander.set(false);
-  chassis.drive_distance(20, 0, 12, 12);
-  intakedown.spin(forward, 10, volt);
-  chassis.drive_distance(30, 20, 12, 12);
-  wait(0.5, seconds);
-  chassis.turn_to_angle(320);
-  chassis.drive_distance(-33.2, 320, 12, 12);
-  intakedown.stop();
+ chassis.set_drive_constants(10, 0.6, 0.01, 2, 10);
+  chassis.set_heading_constants(10, 0.6, 0.01, 2, 10);
+  hook.set(true);
+  intakedown.spin(forward, 12, volt);
+  chassis.drive_distance(8.5, 10, 12, 12);
+  hook.set(false);
+  tongue.set(true);
+  //chassis.turn_to_angle(10);
+  chassis.turn_to_angle(130);
+  chassis.drive_distance(9.5, 130, 12, 12);
   chassis.turn_to_angle(180);
-  chassis.drive_distance(-15, 180, 12, 12);
-  intakedown.spin(forward, 12, volt);
-  intake.spin(forward, 12, volt);
-  wait(1.5, seconds);
-  intakedown.stop();
-  intake.stop();
 
-  
   //match loader
-  aligner.set(true);
-  chassis.drive_distance(35, 185, 8, 8);
-  intakedown.spin(forward, 12, volt);
+  //tongue.set(true);
+  chassis.drive_distance(7, 180, 12, 12, 3, 10000, 1000);
+  wait(0.3, seconds);
+  chassis.drive_distance(-10.7, 180, 12, 12, 3, 10000, 950);
+
+  //outtake
+  intake.spin(forward, 12, volt);
   wait(2, seconds);
   intakedown.stop();
-  chassis.drive_distance(-10, 185, 12, 12);
-  //aligner.set(false);
-  chassis.drive_distance(-25, 185, 12, 12);
-  intakedown.spin(forward, 12, volt);
-  intake.spin(forward, 12, volt);
-  wait(3, seconds);
-  intakedown.stop();
   intake.stop();
-
 //cm/1.86 is degree
-//--------------------------------------------------------
-  
-  /*
-  aligner.set(true);
-  shooter.set(true);
-   intakedown.spin(reverse, 10, volt);
-  wait(0.05,sec);
-  intake.spin(forward, 10, volt);
-  wait(2,sec);
-  intake.stop();
-  intakedown.stop();
-  wait(0.05,sec);
-  */
-
 }
+
 //----------------------------------------------------------------------
 
-void R_left()
+void B_43()
 {
-  vex::color selectedTeamColor = vex::color::red;
-  chassis.set_drive_constants(10, 1.2, 0.005, 2, 10);
-  chassis.set_heading_constants(10, 1.2, 0.005, 2, 10);
-  intakeCylander.set(false);
-  chassis.drive_distance(20, 0, 12, 12);
-  intakedown.spin(forward, 10, volt);
-  chassis.drive_distance(30, 340, 12, 12);
-  wait(0.5, seconds);
-  chassis.turn_to_angle(30);
-  chassis.drive_distance(-34, 45, 12, 12);
-  intakedown.stop();
-  chassis.turn_to_angle(180);
-  chassis.drive_distance(-30, 180, 12, 12);
+  vex::color selectedTeamColor = vex::color::blue;
+  chassis.set_drive_constants(12, 0.6, 0.01, 2, 10);
+  chassis.set_heading_constants(10, 0.6, 0.01, 2, 10);
+  shooter.set(false);
+  hook.set(true);
   intakedown.spin(forward, 12, volt);
+  chassis.drive_distance(8.8, 15, 12, 12);
+  tongue.set(true);
+  hook.set(false);
+  chassis.turn_to_angle(265);
+  chassis.drive_distance(7.5, 265, 12, 12, 3, 10000, 1000);
+  wait(0.09, seconds);
+  chassis.drive_distance(-10.5, 265, 12, 12, 3, 10000, 900);
+
+  //outtake
   intake.spin(forward, 12, volt);
-  wait(1.5, seconds);
+  tongue.set(false);
+  wait(1, seconds);
+  intake.stop();
+
+  //mid goal
+  
+  chassis.drive_distance(7, 170, 12, 12);
+  tongue.set(true);
+  chassis.turn_to_angle(315);
+  chassis.drive_distance(-7.5, 315, 12, 12, 3, 10000, 900);
+  intake.spin(reverse, 12, volt);
+  intakedown.spin(reverse, 12, volt);
+  wait(0.2, seconds);
+  shooter.set(true);
+  intake.spin(reverse, 12, volt);
+  intakedown.spin(forward, 12, volt);
+  wait(1.7, seconds);
   intakedown.stop();
   intake.stop();
+  tongue.set(false);
+
+  //hook
+  chassis.drive_distance(10.3, 315, 12, 12);
+  chassis.turn_to_angle(265);
+  chassis.drive_distance(-9.8, 265, 12, 12);
+
+}
+
+//--------------------------------------------------------
+
+void R_43()
+{
+  vex::color selectedTeamColor = vex::color::red;
+  chassis.set_drive_constants(12, 0.6, 0.01, 2, 10);
+  chassis.set_heading_constants(10, 0.6, 0.01, 2, 10);
+  shooter.set(false);
+  hook.set(true);
+  intakedown.spin(forward, 12, volt);
+  chassis.drive_distance(10, 15, 12, 12);
+  hook.set(false);
+  tongue.set(true);
+  chassis.turn_to_angle(265);
+  chassis.drive_distance(8.7, 270, 12, 12, 3, 10000, 1200);
+  wait(0.15, seconds);
+  chassis.drive_distance(-10.5, 270, 12, 12, 3, 10000, 900);
+
+  //outtake
+  intake.spin(forward, 12, volt);
+  tongue.set(false);
+  wait(2, seconds);
+  intake.stop();
+
+  //mid goal
+  
+  chassis.drive_distance(7, 170, 12, 12);
+  tongue.set(true);
+  chassis.turn_to_angle(315);
+  chassis.drive_distance(-8, 315, 12, 12, 3, 10000, 900);
+  intake.spin(reverse, 12, volt);
+  intakedown.spin(reverse, 12, volt);
+  wait(0.1, seconds);
+  shooter.set(true);
+  intake.spin(reverse, 12, volt);
+  intakedown.spin(forward, 12, volt);
+  wait(1, seconds);
+  intakedown.stop();
+  intake.stop();
+
+  //hook
+  chassis.drive_distance(10.5, 315, 12, 12);
+  chassis.turn_to_angle(260);
+  chassis.drive_distance(-10, 260, 12, 12);
+}
+
+//--------------------------------------------------------
+void RL_43()
+{
+  vex::color selectedTeamColor = vex::color::red;
+  chassis.set_drive_constants(12, 0.6, 0.01, 2, 10);
+  chassis.set_heading_constants(10, 0.6, 0.01, 2, 10);
+  shooter.set(false);
+  hook.set(true);
+  intakedown.spin(forward, 12, volt);
+  chassis.drive_distance(9, 345, 12, 12);
+  hook.set(false);
+  tongue.set(true);
+  chassis.turn_to_angle(85);
+  chassis.drive_distance(8.7, 85, 12, 12, 3, 10000, 1000);
+  wait(0.15, seconds);
+  chassis.drive_distance(-10.5, 85, 12, 12, 3, 10000, 900);
+
+  //outtake
+  intake.spin(forward, 12, volt);
+  tongue.set(false);
+  wait(2, seconds);
+  intake.stop();
+
+  //mid goal
+  
+  chassis.drive_distance(6, 85, 12, 12);
+  
+  chassis.turn_to_angle(210);
+  intakedown.spin(forward, 12, volt);
+  chassis.drive_distance(20, 210, 12, 12, 3, 10000, 4500);
+  intakedown.spin(reverse, 12, volt);
+  wait(1, seconds);
+  intakedown.stop();
+
+  //hook
+  chassis.drive_distance(-10.5, 225, 12, 12);
+  chassis.turn_to_angle(280);
+  chassis.drive_distance(10, 280, 12, 12);
+}
+
+//--------------------------------------------------------
+
+void B_right7()
+{
+  vex::color selectedTeamColor = vex::color::blue;
+  chassis.set_drive_constants(10, 0.6, 0.01, 2, 10);
+  chassis.set_heading_constants(10, 0.6, 0.01, 2, 10);
+  hook.set(true);
+  intakedown.spin(forward, 12, volt);
+  chassis.drive_distance(8.5, 10, 12, 12);
+  hook.set(false);
+  tongue.set(true);
+  //chassis.turn_to_angle(10);
+  chassis.turn_to_angle(130);
+  chassis.drive_distance(10, 130, 12, 12);
+  chassis.turn_to_angle(180);
 
   //match loader
-  aligner.set(true);
-  chassis.drive_distance(35, 175, 10, 10);
-  intakedown.spin(forward, 12, volt);
-  wait(2, seconds);
-  intakedown.stop();
-  chassis.drive_distance(-10, 175, 12, 12);
-  aligner.set(false);
-  chassis.drive_distance(-25, 175, 12, 12);
-  intakedown.spin(forward, 12, volt);
+  //tongue.set(true);
+  chassis.drive_distance(7, 180, 12, 12, 3, 10000, 1000);
+  wait(0.3, seconds);
+  chassis.drive_distance(-10.7, 180, 12, 12, 3, 10000, 950);
+
+  //outtake
   intake.spin(forward, 12, volt);
-  wait(1.5, seconds);
+  wait(2, seconds);
   intakedown.stop();
   intake.stop();
 }
 
 //--------------------------------------------------------
 
-void skills85()
+void skills96()
 {
+  chassis.set_drive_constants(10, 1.2, 0.005, 2, 10);
+  chassis.set_heading_constants(10, 1.2, 0.005, 2, 10);
   
-}
-
-//--------------------------------------------------------
-
-void R_right_F()
-{
-  vex::color selectedTeamColor = vex::color::red;
 }
 
 //--------------------------------------------------------
@@ -138,106 +234,38 @@ void R_solo()
 {
   vex::color selectedTeamColor = vex::color::red;
 }
-//--------------------------------------------------------
 
-void B_right()
-{
-  vex::color selectedTeamColor = vex::color::blue;
-  chassis.set_drive_constants(10, 1.2, 0.005, 2, 10);
-  chassis.set_heading_constants(10, 1.2, 0.005, 2, 10);
-  intakeCylander.set(false);
-  chassis.drive_distance(20, 0, 12, 12);
-  intakedown.spin(forward, 10, volt);
-  chassis.drive_distance(30, 20, 12, 12);
-  wait(0.5, seconds);
-  chassis.turn_to_angle(320);
-  chassis.drive_distance(-35, 320, 12, 12);
-  intakedown.stop();
-  chassis.turn_to_angle(180);
-  chassis.drive_distance(-18, 180, 12, 12);
-  intakedown.spin(forward, 12, volt);
-  intake.spin(forward, 12, volt);
-  wait(1.5, seconds);
-  intakedown.stop();
-  intake.stop();
-  
-  //match loader
-  aligner.set(true);
-  chassis.drive_distance(35, 185, 10, 10);
-  intakedown.spin(forward, 12, volt);
-  wait(2, seconds);
-  intakedown.stop();
-  chassis.drive_distance(-10, 185, 12, 12);
-  //aligner.set(false);
-  chassis.drive_distance(-25, 185, 12, 12);
-  intakedown.spin(forward, 12, volt);
-  intake.spin(forward, 12, volt);
-  wait(1.5, seconds);
-  intakedown.stop();
-  intake.stop();
-}
-//--------------------------------------------------------
-void B_left()
-{
-  vex::color selectedTeamColor = vex::color::blue;
-  chassis.set_drive_constants(10, 1.2, 0.005, 2, 10);
-  chassis.set_heading_constants(10, 1.2, 0.005, 2, 10);
-  intakeCylander.set(false);
-  chassis.drive_distance(20, 0, 12, 12);
-  intakedown.spin(forward, 10, volt);
-  chassis.drive_distance(30, 340, 12, 12);
-  wait(0.5, seconds);
-  chassis.turn_to_angle(45);
-  chassis.drive_distance(-33, 45, 12, 12);
-  intakedown.stop();
-  chassis.turn_to_angle(180);
-  chassis.drive_distance(-18, 180, 12, 12);
-  intakedown.spin(forward, 12, volt);
-  intake.spin(forward, 12, volt);
-  wait(1.5, seconds);
-  intakedown.stop();
-  intake.stop();
-
-  //match loader
-  aligner.set(true);
-  chassis.drive_distance(35, 178, 8, 8);
-  intakedown.spin(forward, 12, volt);
-  wait(1.5, seconds);
-  intakedown.stop();
-  chassis.drive_distance(-10, 178, 12, 12);
-  //aligner.set(false);
-  chassis.drive_distance(-25, 178, 12, 12);
-  intakedown.spin(forward, 12, volt);
-  intake.spin(forward, 12, volt);
-  wait(1.5, seconds);
-  intakedown.stop();
-  intake.stop();
-}
-//--------------------------------------------------------
-void skills96()
-{
-  
-}
-//--------------------------------------------------------
-void skills101()
-{
-
-}
 //-------------------------------------------------------- 
+
 void B_solo()
 {
   vex::color selectedTeamColor = vex::color::blue;
 }
+
 //--------------------------------------------------------
 
+void B_left7()
+{
+  
+}
 
+//--------------------------------------------------------
+
+void R_left7()
+{
+  vex::color selectedTeamColor = vex::color::red;
+}
+
+//--------------------------------------------------------
 
 void odom_test()
 {
+
 }
 
 void PIDtest()
 {
+
 }
 
 void default_constants()

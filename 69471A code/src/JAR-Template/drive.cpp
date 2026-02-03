@@ -378,6 +378,21 @@ void Drive::control_holonomic(){
 void Drive::control_tank(float percentage = 100){
   float leftthrottle = deadband(controller(primary).Axis3.value(), 5) * percentage / 100;
   float rightthrottle = deadband(controller(primary).Axis2.value(), 5) * percentage / 100;
+  
+  // If controller value is less than 25, move at 30 volts
+  if(0 < fabs(controller(primary).Axis3.value()) && fabs(controller(primary).Axis3.value()) < 30 && 0 < controller(primary).Axis3.value()) {
+    leftthrottle = 30;
+  }
+  else if(0 < fabs(controller(primary).Axis3.value()) && fabs(controller(primary).Axis3.value()) < 30 && controller(primary).Axis3.value() < 0) {
+    leftthrottle = -30;
+  }
+  if(0 < fabs(controller(primary).Axis2.value()) && fabs(controller(primary).Axis2.value()) < 30 && 0 < controller(primary).Axis2.value()) {
+    rightthrottle = 30;
+  }
+  else if(0 < fabs(controller(primary).Axis2.value()) && fabs(controller(primary).Axis2.value()) < 30 && controller(primary).Axis2.value() < 0) {
+    rightthrottle = -30;
+  }
+  
   DriveL.spin(fwd, to_volt(leftthrottle), volt);
   DriveR.spin(fwd, to_volt(rightthrottle), volt);
   if(leftthrottle == 0)
